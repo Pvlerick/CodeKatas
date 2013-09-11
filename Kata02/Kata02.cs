@@ -43,7 +43,8 @@ namespace Kata02
         //Recursively passing smaller slices of the initial array
         public int Chop2(int element, ICollection<int> collection)
         {
-            return SubChop2(element, new ArraySlice<int>(collection.ToArray()));
+            //ArraySlice class used to hide the complexity and allow the code to work with relative indexes in the sub arrays
+            return SubChop2(element, new ArraySlice<int>(collection));
         }
         //...and its sub method required for passing array slices around
         private int SubChop2(int element, ArraySlice<int> array)
@@ -61,12 +62,12 @@ namespace Kata02
             else if (candidate < element)
             {
                 var offset = index + 1;
-                var position = SubChop2(element, array.Skip(index + 1));
+                var position = SubChop2(element, array.Slice(offset, array.Count - offset));
                 return position > -1 ? offset + position : -1;
             }
             else //if (candidate > element)
             {
-                return SubChop2(element, array.Take(index));
+                return SubChop2(element, array.Slice(0, index));
             }
         }
 
@@ -186,6 +187,8 @@ namespace Kata02
             int Offset { get; set; }
             public int Count { get; private set; }
 
+            public ArraySlice(ICollection<T> collection) : this(collection.ToArray()) { }
+
             public ArraySlice(T[] array) : this(array, 0, array.Length) { }
 
             ArraySlice(T[] array, int offset, int count)
@@ -205,17 +208,7 @@ namespace Kata02
 
             public ArraySlice<T> Slice(int offset, int count)
             {
-                return new ArraySlice<T>(this.Array, offset, count);
-            }
-
-            public ArraySlice<T> Take(int count)
-            {
-                return this.Slice(this.Offset, count);
-            }
-
-            public ArraySlice<T> Skip(int offset)
-            {
-                return this.Slice(this.Offset + offset, this.Count - offset);
+                return new ArraySlice<T>(this.Array, this.Offset + offset, count);
             }
 
             public T[] ToArray()
