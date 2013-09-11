@@ -180,7 +180,7 @@ namespace Kata02
             Assert.AreEqual(6, chop(10, new int[] { 1, 3, 5, 7, 8, 9, 10 }));
         }
 
-        class ArraySlice<T> : ICollection<T>
+        class ArraySlice<T>
         {
             T[] Array { get; set; }
             int Offset { get; set; }
