@@ -1,4 +1,4 @@
-CodeKatas-CSharp
-================
+CodeKatas
+=========
 
-My code katas in C#
+My code katas solutions, see http://codekata.pragprog.com/
