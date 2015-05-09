@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Kata02", "Kata02\Kata02.fsproj", "{AD41697A-9117-430A-AC77-49EA4A16A32A}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculator", "StringCalculator\StringCalculator.fsproj", "{02482922-DF35-496C-B6F0-B312CA9ED2D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,10 @@ Global
 		{AD41697A-9117-430A-AC77-49EA4A16A32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD41697A-9117-430A-AC77-49EA4A16A32A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD41697A-9117-430A-AC77-49EA4A16A32A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02482922-DF35-496C-B6F0-B312CA9ED2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02482922-DF35-496C-B6F0-B312CA9ED2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02482922-DF35-496C-B6F0-B312CA9ED2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02482922-DF35-496C-B6F0-B312CA9ED2D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
