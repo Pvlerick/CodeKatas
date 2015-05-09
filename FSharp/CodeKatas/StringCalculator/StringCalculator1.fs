@@ -8,8 +8,8 @@ let add numbers =
     match numbers with
     | "" -> 0
     | _ ->
-        let parse (content: string) delimiter =
-            content.Split([| "\n"; delimiter |], StringSplitOptions.RemoveEmptyEntries)
+        let parse (content: string) delimiters =
+            content.Split((Array.append [| "\n" |] delimiters), StringSplitOptions.RemoveEmptyEntries)
             |> Seq.map Int32.Parse
             |> Seq.filter (fun i -> i <= 1000)
 
@@ -18,11 +18,11 @@ let add numbers =
                 then
                     let head = numbers.Substring(0, numbers.IndexOf('\n')) //Get the first line
                     let body = numbers.Substring(numbers.IndexOf('\n') + 1) //The rest that should be parsed
-                    let m = Regex.Match(head, "//\[([^\]]*)\]")
+                    let m = Regex.Match(head, "//(?:\[([^\]]*)\])+")
                     if m.Success
-                        then parse body m.Groups.[1].Value
-                        else parse body (numbers.[2].ToString())
-                else parse numbers ","
+                        then parse body (seq { for c in m.Groups.[1].Captures -> c.Value } |> Seq.toArray)
+                        else parse body [| numbers.[2].ToString() |]
+                else parse numbers [| "," |]
 
         if ns |> Seq.exists (fun i -> i < 0)
             then failwith ("negatives not allowed: " + String.Join(",", (ns |> Seq.filter (fun i -> i < 0) |> Seq.toArray)))
@@ -96,6 +96,14 @@ let Add_With_UnknownAmountOfNumbersWithHigherThan1000_Must_IgnoreValuesHigherTha
 [<InlineData("//[^^]\n1^^5\n6", 12)>]
 [<InlineData("//[====]\n5====6====7", 18)>]
 [<InlineData("//[abc]\n8abc5\n1abc7", 21)>]
+[<InlineData("//[***]\n1***2***3", 6)>]
 let Add_With_UnknownAmountOfNumbersWithDelimitersLongersThanOneChar_Must_ReturnCorrectSum(value: string, expected: int) =
+    let result = add value
+    Assert.Equal(expected, result)
+
+[<Theory>]
+[<InlineData("//[*][%]\n1*2%3", 6)>]
+[<InlineData("//[**+][%bb]\n1**+2%bb3", 6)>]
+let Add_With_UnknownAmountOfNumbersWithMultipleDelimitersLongersThanOneChar_Must_ReturnCorrectSum(value: string, expected: int) =
     let result = add value
     Assert.Equal(expected, result)
