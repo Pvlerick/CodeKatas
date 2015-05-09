@@ -10,6 +10,7 @@ let add numbers =
         let parse (content: string) delimiters =
             content.Split(delimiters)
             |> Seq.map Int32.Parse
+            |> Seq.filter (fun i -> i <= 1000)
 
         let ns =
             if numbers.StartsWith("//")
@@ -74,3 +75,12 @@ let Add_With_UnknownAmountOfNumbersWithDifferentDelimiter_Must_ReturnSumOfNumber
 let Add_With_UnknownAmountOfNumbersWithNegatives_Must_ThrowWithNegativesInTheMessage(value: string, expected: string) =
     let e = Assert.Throws<Exception>(fun () -> add value |> ignore)
     Assert.Equal("negatives not allowed: " + expected, e.Message)
+
+
+[<Theory>]
+[<InlineData("1,5,1000", 1006)>]
+[<InlineData("9,3,1001", 12)>]
+[<InlineData("//$\n9$3\n1001$1000$1520", 1012)>]
+let Add_With_UnknownAmountOfNumbersWithHigherThan1000_Must_IgnoreValuesHigherThan1000(value: string, expected: int) =
+    let result = add value
+    Assert.Equal(expected, result)
